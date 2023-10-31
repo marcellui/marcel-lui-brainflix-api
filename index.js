@@ -4,6 +4,8 @@ const app = express();
 const cors = require("cors");
 const videos = require("./routes/videos");
 
+
+app.use(express.json());
 app.use(cors());
 app.use(express.static('public/images'))
 
