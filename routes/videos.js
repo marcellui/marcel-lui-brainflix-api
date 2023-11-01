@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
 
 
 const tempVideos  = fs.readFileSync("./data/videos.json");
@@ -17,18 +18,17 @@ router.get("/:id", (req,res)=> {
 
 router.post("/", (req,res)=> {
     const {title, description} = req.body;
+    if (!title || !description){
+        res.status(400).json("Title and Description is required")
+    }
     const newVideo ={
         id: uuidv4(),
-        title,
-        description,
-        channel,
-        image,
-        views,
-        likes,
-        duration,
-        video,
-        timestamp,
-        comments
+        title : title,
+        description : description,
+        image: "Upload-video-preview.jpg"
     }
+    videosData.push(newVideo);
+    fs.writeFileSync("./data/videos.json", JSON.stringify(videosData));
+    res.json(newVideo);
 })
 module.exports = router;
